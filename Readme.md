@@ -218,3 +218,12 @@ If data is written to the storage by other means, call `context.storageDidChange
 - Native SOIL values instead of encoded data
 - Fine-grained observation using `Observation` instead of `ObservableObject`
 - Not (yet) supported: editing contexts, commands
+
+## Contributing
+
+Contributions are welcome! Please read the [contributing guidelines](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md).
+Security issues should be reported privately, as described in the [Security Policy](SECURITY.md).
+
+## License
+
+SoilModel is available under the MIT license. See [LICENSE](LICENSE) for details.
