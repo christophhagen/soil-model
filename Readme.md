@@ -31,6 +31,9 @@ The library is based on the design of [StateModel](https://github.com/christophh
 models are flattened into SOIL paths, all values are timestamped samples, and synchronization is handled by SOIL components.
 It requires no macros (and therefore no `swift-syntax`).
 
+**Supported platforms:** macOS 14+, iOS 17+, tvOS 17+, watchOS 10+, Linux, Windows (Swift 6.2).
+The SwiftUI integration (`@Query`) is only available on Apple platforms.
+
 ## Storage layout
 
 All data of a context is stored below its `root` path:
@@ -158,7 +161,7 @@ let oldAlice = snapshot.get(Person.self, id: "alice")
 
 ### SwiftUI
 
-Models and contexts use the `Observation` framework, and can be used directly in views:
+Models and contexts use the `Observation` framework, and can be used directly in views (on Apple platforms):
 
 ```swift
 struct PeopleView: View {
