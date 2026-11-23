@@ -25,7 +25,7 @@ struct ModelContextReceiver: Receiver {
 
     let storage: any SynchronousStorage
 
-    weak let context: ModelContext?
+    weak var context: ModelContext?
 
     @discardableResult
     func accept(_ tree: any SampleTree, for path: Path) -> any Request {
