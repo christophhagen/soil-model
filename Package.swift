@@ -1,4 +1,4 @@
-// swift-tools-version: 6.4
+// swift-tools-version: 6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -30,7 +30,8 @@ let package = Package(
                 .product(name: "Soil", package: "soil-core-swift"),
             ],
             swiftSettings: [
-                .enableUpcomingFeature("ApproachableConcurrency"),
+                .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+                .enableUpcomingFeature("InferIsolatedConformances"),
             ],
         ),
         .testTarget(
@@ -40,7 +41,8 @@ let package = Package(
                 .product(name: "Soil", package: "soil-core-swift"),
             ],
             swiftSettings: [
-                .enableUpcomingFeature("ApproachableConcurrency"),
+                .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+                .enableUpcomingFeature("InferIsolatedConformances"),
             ],
         ),
     ]
