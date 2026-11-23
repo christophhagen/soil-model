@@ -3,7 +3,7 @@ import Soil
 import Testing
 @testable import SoilModel
 
-@Suite("In-memory model storage")
+@Suite("In-memory synchronous storage")
 struct StorageTests {
 
     private let base = Date(timeIntervalSince1970: 1000)
@@ -13,8 +13,8 @@ struct StorageTests {
     }
 
     /// Fill both storages with the same data
-    private func makeStorages() async -> (InMemoryModelStorage, InMemoryStorage) {
-        let model = InMemoryModelStorage()
+    private func makeStorages() async -> (InMemorySynchronousStorage, InMemoryStorage) {
+        let model = InMemorySynchronousStorage()
         let reference = InMemoryStorage()
         let tree = ImmutableSampleTree(
             samples: (1...5).map { Sample(value: .integer($0), timestamp: time(Double($0))) },
@@ -71,7 +71,7 @@ struct StorageTests {
 
     @Test("Usable as SOIL storage")
     func asyncAccess() async {
-        let storage: any Storage = InMemoryModelStorage()
+        let storage: any Storage = InMemorySynchronousStorage()
         await storage.accept(.integer(1), for: ["a"]).wait()
         #expect(await storage.currentValue(for: ["a"]) == .integer(1))
     }

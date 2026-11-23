@@ -5,7 +5,7 @@ import Soil
  A SOIL storage that provides synchronous access to its data.
 
  Models read and write their properties synchronously, so they need a storage which can answer requests immediately.
- `ModelStorage` refines the SOIL `Storage` protocol with a synchronous version of `tree(for:from:to:depth:limitPerNode:)`.
+ `SynchronousStorage` refines the SOIL `Storage` protocol with a synchronous version of `tree(for:from:to:depth:limitPerNode:)`.
  A single synchronous implementation of that function also satisfies the asynchronous requirement of `Provider`,
  so a conforming type can be used everywhere a SOIL `Storage` is expected (e.g. with `HostedObservableStorage`).
 
@@ -13,8 +13,11 @@ import Soil
  **before** the functions return, so that subsequent reads observe the changes.
  The returned request can then simply be a `CompletedRequest`.
 
+ All copies of a storage must share the same data, since a context and its receiver hold the storage separately.
+ This is the case for classes, and for value types which keep their state in a shared reference.
+
  ```swift
- final class MyStorage: ModelStorage {
+ final class MyStorage: SynchronousStorage {
 
      func tree(for path: Path, from start: Timestamp?, to end: Timestamp?, depth: Int?, limitPerNode: Int?) -> any SampleTree { ... }
 
@@ -27,7 +30,7 @@ import Soil
  - Note: In asynchronous contexts the compiler prefers the `async` overload of `tree(for:...)`,
    so calls there need to be marked with `await`. Both overloads are served by the same implementation.
  */
-public protocol ModelStorage: AnyObject, Storage {
+public protocol SynchronousStorage: Storage {
 
     /**
      Read a data tree for a given path within a given interval.
@@ -49,7 +52,7 @@ public protocol ModelStorage: AnyObject, Storage {
     func tree(for path: Path, from start: Timestamp?, to end: Timestamp?, depth: Int?, limitPerNode: Int?) -> any SampleTree
 }
 
-extension ModelStorage {
+extension SynchronousStorage {
 
     /**
      Get the most recent sample of a path before or at a point in time.

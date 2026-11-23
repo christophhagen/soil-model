@@ -21,7 +21,7 @@ final class Person: Model {
     var friends: [Person]
 }
 
-let context = ModelContext(storage: InMemoryModelStorage(), root: ["app"], models: [Person.self])
+let context = ModelContext(storage: InMemorySynchronousStorage(), root: ["app"], models: [Person.self])
 
 let alice = context.create(Person.self, id: "alice") { $0.name = "Alice" }
 alice.age += 1
@@ -178,10 +178,10 @@ PeopleView().environment(context)
 
 ## Storage
 
-Models require a `ModelStorage`, which is a SOIL `Storage` with synchronous reads:
+Models require a `SynchronousStorage`, which is a SOIL `Storage` with synchronous reads:
 
 ```swift
-public protocol ModelStorage: AnyObject, Storage {
+public protocol SynchronousStorage: Storage {
     func tree(for path: Path, from start: Timestamp?, to end: Timestamp?, depth: Int?, limitPerNode: Int?) -> any SampleTree
 }
 ```
@@ -189,14 +189,14 @@ public protocol ModelStorage: AnyObject, Storage {
 The synchronous `tree` function also satisfies the asynchronous requirement of SOIL's `Provider`.
 Conforming types must apply `accept(_:for:)` and `delete(path:from:to:depth:)` before returning.
 
-`InMemoryModelStorage` is provided for testing and prototyping. Persistent storages are implemented in separate packages.
+`InMemorySynchronousStorage` is provided for testing and prototyping. Persistent storages are implemented in separate packages.
 
 > In asynchronous contexts, the compiler prefers SOIL's `async` overloads of `tree(for:...)` and `samples(for:)`,
 > so these calls need to be marked with `await`.
 
 ## Synchronization
 
-Since a `ModelStorage` is a SOIL `Storage`, it can be shared with all SOIL components, e.g. using `HostedObservableStorage`.
+Since a `SynchronousStorage` is a SOIL `Storage`, it can be shared with all SOIL components, e.g. using `HostedObservableStorage`.
 To receive updates from other components, use the `receiver` of the context.
 It stores incoming data and notifies the affected models:
 

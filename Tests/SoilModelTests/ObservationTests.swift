@@ -20,7 +20,7 @@ private final class Flag: @unchecked Sendable {
 @Suite("Observation")
 struct ObservationTests {
 
-    let storage = InMemoryModelStorage()
+    let storage = InMemorySynchronousStorage()
 
     let context: ModelContext
 

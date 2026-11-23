@@ -7,7 +7,7 @@ import Testing
 @Suite("Models")
 struct ModelTests {
 
-    let storage = InMemoryModelStorage()
+    let storage = InMemorySynchronousStorage()
 
     let context: ModelContext
 

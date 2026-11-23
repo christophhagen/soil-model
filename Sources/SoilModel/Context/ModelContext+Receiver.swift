@@ -23,7 +23,7 @@ extension ModelContext {
  */
 struct ModelContextReceiver: Receiver {
 
-    let storage: any ModelStorage
+    let storage: any SynchronousStorage
 
     weak let context: ModelContext?
 

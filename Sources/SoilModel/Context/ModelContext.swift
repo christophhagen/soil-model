@@ -5,11 +5,11 @@ import Soil
 /**
  The context that connects models to a SOIL storage.
 
- A context manages the instances of models stored in a ``ModelStorage``.
+ A context manages the instances of models stored in a ``SynchronousStorage``.
  It ensures that only a single object exists for each instance, so that changes are visible to all observers.
 
  ```swift
- let storage = InMemoryModelStorage()
+ let storage = InMemorySynchronousStorage()
  let context = ModelContext(storage: storage, root: ["app"], models: [Person.self])
 
  let alice = context.create(Person.self, id: "alice") { $0.name = "Alice" }
@@ -24,7 +24,7 @@ import Soil
 public final class ModelContext: nonisolated Observation.Observable {
 
     /// The storage containing the model data
-    public let storage: any ModelStorage
+    public let storage: any SynchronousStorage
 
     /// The path below which all model data is stored
     public let root: Path
@@ -51,7 +51,7 @@ public final class ModelContext: nonisolated Observation.Observable {
      - Parameter root: The path below which all model data is stored
      - Parameter models: The model types to register (see ``register(_:)``)
      */
-    public init(storage: any ModelStorage, root: Path = [], models: [Model.Type] = []) {
+    public init(storage: any SynchronousStorage, root: Path = [], models: [Model.Type] = []) {
         self.storage = storage
         self.root = root
         self.time = nil

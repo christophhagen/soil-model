@@ -2,13 +2,13 @@ import Foundation
 import Soil
 
 /**
- A simple model storage that keeps all samples in memory.
+ A simple synchronous storage that keeps all samples in memory.
 
  The storage keeps the full history of each path, and follows the same semantics as `Soil.InMemoryStorage`,
- but provides synchronous access as required by ``ModelStorage``.
+ but provides synchronous access as required by ``SynchronousStorage``.
  It is intended for testing and prototyping. Use a persistent storage for production.
  */
-public final class InMemoryModelStorage: ModelStorage, @unchecked Sendable {
+public final class InMemorySynchronousStorage: SynchronousStorage, @unchecked Sendable {
 
     /// The root of the data tree, protected by `lock`
     private let root = Node()
